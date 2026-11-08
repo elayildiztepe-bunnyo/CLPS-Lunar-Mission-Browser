@@ -45,7 +45,7 @@ export default function App(){
   setBusy(true);setStatus('Reading LOLA raster…');
   try{
    const tiff=await fromBlob(file);const image=await tiff.getImage();const rasters=await image.readRasters({samples:[0],interleave:true});
-   const values=Float32Array.from(rasters as ArrayLike<number>);const noData=image.getGD appropriateNoData();
+   const values=Float32Array.from(rasters as ArrayLike<number>);const noData=image.getGDALNoData();
    let min=Infinity,max=-Infinity;for(const v of values){if(Number.isFinite(v)&&(noData===null||v!==noData)){min=Math.min(min,v);max=Math.max(max,v);}}
    if(!Number.isFinite(min)||!Number.isFinite(max))throw new Error('No valid elevation samples found.');
    setRaster({width:image.getWidth(),height:image.getHeight(),values,min,max,noData:noData??undefined});
